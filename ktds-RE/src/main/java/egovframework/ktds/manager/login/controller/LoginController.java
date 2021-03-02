@@ -21,6 +21,7 @@ public class LoginController {
         // From the kie services, a container is created from the classpath
         KieContainer kc = ks.getKieClasspathContainer();
 
+        System.out.println("HI");
         dse.execute( kc );
 		
 		return "login";
