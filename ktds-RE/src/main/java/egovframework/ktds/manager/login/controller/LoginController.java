@@ -1,15 +1,21 @@
 package egovframework.ktds.manager.login.controller;
 
+import javax.annotation.Resource;
+
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import egovframework.example.sample.web.DroolsScoreExample;
+import egovframework.ktds.manager.login.service.LoginService;
 
 @Controller
 public class LoginController {
 
+	@Resource(name = "loginService")
+	protected LoginService loginService;
+	
 	@RequestMapping("/login.do")
 	public String login() throws Exception {
 		
@@ -22,6 +28,10 @@ public class LoginController {
         KieContainer kc = ks.getKieClasspathContainer();
 
         dse.execute( kc );
+        
+        String test = loginService.selctTestString();
+        
+        System.out.println("test : " + test);
 		
 		return "login";
 	}
