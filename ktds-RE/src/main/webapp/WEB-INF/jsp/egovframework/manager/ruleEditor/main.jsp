@@ -7,6 +7,7 @@
 
 <script type="text/javascript" src="/common/js/jquery-3.6.0.min.js"></script>
 <script src="/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+<script src="/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/bootstrap-3.3.2-dist/css/bootstrap.min.css">
 <link href="/common/css/bootstrap.min.css" rel="stylesheet">
 
@@ -117,6 +118,33 @@ body {
 			$('.side-nav').toggleClass("open");
 			e.preventDefault();
 		});
+		
+        //[1] 리스트의 기본 모양 지정 : <ul>를 자식으로 가지지 않는 li의 블릿기호는 기본 모양
+        $('li:not(:has(ul))').css({ cursor: 'default', 'list-style-image':'url(/common/images/file.gif)'});
+       
+        //[2] 자식 요소를 갖는 li에 대해서는 블릿이미지를 plus.gif를 지정
+        $('li:has(ul)') //자식 요소(ul)를 갖는 요소(li)에 대해서
+            .css({cursor: 'pointer', 'list-style-image':'url(/common/images/plus.gif)'})//+기호로 설정
+            .children().hide(); //자식요소 숨기기
+           
+        //[3] +로 설정된 항목에 대해서 click이벤트 적용
+        $('li:has(ul)').click(function(event){
+                       
+            //this == event.target으로 현재 선택된 개체에 대해서 처리
+            if(this == event.target){
+                //숨겨진 상태면 보이고 -기호로 설정 그렇지 않으면 숨기고 + 기호로 설정
+                  if ($(this).children().is(':hidden')) {
+                    // 보이기
+                    $(this).css('list-style-image', 'url(/common/images/minus.gif)').children().slideDown();
+                }
+                else {
+                    // 숨기기
+                    $(this).css('list-style-image', 'url(/common/images/plus.gif)').children().slideUp();
+                }
+
+            }
+            return false;          
+        });
 	});
 </script>
 </head>
@@ -164,10 +192,36 @@ body {
 					<div class="card">
 						<div class="card-body h834">
 							<h5 class="card-title">속성 VIEW</h5>
-							<h6 class="card-subtitle mb-2 text-muted">Bootstrap 4.0.0 Snippet by pradeep330</h6>
-							<p class="card-text">You can also try different version of Bootstrap V4 side menu. Click below link to view all Bootstrap Menu versions.</p>
-							<a href="https://bootsnipp.com/pradeep330" class="card-link">link</a>
-							<a href="http://websitedesigntamilnadu.com" class="card-link">Another link</a>
+
+
+ <fieldset>
+        <legend></legend>
+        <ul>
+            <li>게시판</li>
+            <li>자바과정-기초
+                <ul>
+                    <li>기본문법</li>
+                    <li>AWT/SWING</li>
+                    <li>JDBC</li>
+                    <li>자바예제</li>
+                    <li>자바복습</li>
+                </ul>
+           </li>
+           <li>웹프로그래밍
+                <ul>
+                    <li>JSP&amp;Servlet</li>
+                    <li>프레임워크
+                        <ul>
+                            <li>struts2(스트럿츠2)</li>
+                            <li>Spring(스프링)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+   
+    </fieldset>
+
 						</div>
 					</div>
 				</div>
