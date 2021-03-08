@@ -198,8 +198,8 @@ body {
 					html += "<ul data-column_ul=''>";
 					
 					for(var i in res.columnList) {
-						html += "	<li data-column_name='"+ res.columnList[i].COLUMN_NAME +"'>";
-						html += "		<span>";
+						html += "	<li>";
+						html += "		<span data-column_name='"+ res.columnList[i].COLUMN_NAME +"'>";
 						html += 			res.columnList[i].COLUMN_COMMENT;
 						html += "		</span>";
 						html += "	</li>";
@@ -213,6 +213,21 @@ body {
 				}
 			});
 		});
+		
+		// 속성 View 클릭 이벤트
+		$(document).on("click", ".attViewTree li span", function(){
+			var column_name = $(this).data("column_name");
+			var column_comment = $(this).text();
+			
+			var html = "";
+			html += "<p class='card-text'>";
+			html += 	column_comment;
+			html += "</p>";
+			
+			$("#ruleAttDiv").append(html);
+			
+		});
+			
 	});
 </script>
 </head>
@@ -348,7 +363,6 @@ body {
 									<h6 class="card-subtitle mb-2 text-muted">Rule Name : 유선전화 사용자 인터넷 전환대상</h6>
 									<button type="button" class="btn btn-info" id="ruleApplyBtn">Rule Apply</button>
 									<button type="button" class="btn btn-info" id="drlGenBtn">Generate</button>
-									<p class="card-text">You can also try different version of Bootstrap V4 side menu. Click below link to view all Bootstrap Menu versions.</p>
 								</div>
 							</div>
 						</div>
