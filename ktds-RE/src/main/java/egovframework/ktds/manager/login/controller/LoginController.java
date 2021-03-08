@@ -29,10 +29,6 @@ public class LoginController {
 
         dse.execute( kc );
         
-        String test = loginService.selctTestString();
-        
-        System.out.println("test : " + test);
-		
 		return "login";
 	}
 }
