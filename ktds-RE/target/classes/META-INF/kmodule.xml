@@ -2,6 +2,10 @@
 <kmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://www.drools.org/xsd/kmodule">
 
+    <kbase name="MapExampleKB" packages="rules">
+        <ksession name="MapExampleKS"/>
+    </kbase>
+<!--     
     <kbase name="point-rulesKB" packages="rules">
         <ksession name="point-rulesKS"/>
     </kbase>
@@ -9,6 +13,6 @@
     <kbase name="HelloWorldKB" packages="rules">
         <ksession name="HelloWorldKS"/>
     </kbase>
-
+ -->
 
 </kmodule>

@@ -49,5 +49,24 @@ public class RuleEditorController {
 		
 		return columnInfo;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/detAttViewGetData.do", method = RequestMethod.POST)
+	public HashMap<String, Object> detAttViewGetData(@RequestParam("table_name") String table_name,
+													 @RequestParam("column_name") String column_name) {
+		
+		HashMap<String, Object> dataInfo = new HashMap<String, Object>();
+		
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("table_name", table_name);
+		param.put("column_name", column_name);
+		param.put("schema", schema);
+		
+		List<String> dataList = ruleEditorService.detAttViewGetData(param);
+		
+		dataInfo.put("dataList", dataList);
+		
+		return dataInfo;
+	}
 
 }

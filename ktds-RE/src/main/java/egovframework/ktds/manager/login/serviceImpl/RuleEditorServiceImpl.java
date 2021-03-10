@@ -27,4 +27,9 @@ public class RuleEditorServiceImpl extends EgovAbstractServiceImpl implements Ru
 		return dao.getColumnByTable(param);
 	}
 
+	@Override
+	public List<String> detAttViewGetData(HashMap<String, Object> param) {
+		return dao.detAttViewGetData(param);
+	}
+
 }

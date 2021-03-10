@@ -7,7 +7,7 @@ import org.kie.api.runtime.KieContainer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import egovframework.example.sample.web.DroolsScoreExample;
+import egovframework.example.sample.web.DroolsMapExample;
 import egovframework.ktds.manager.login.service.LoginService;
 
 @Controller
@@ -19,7 +19,8 @@ public class LoginController {
 	@RequestMapping("/login.do")
 	public String login() throws Exception {
 		
-		DroolsScoreExample dse = new DroolsScoreExample();
+//		DroolsScoreExample dse = new DroolsScoreExample();
+		DroolsMapExample dse = new DroolsMapExample();
 		
 		// KieServices is the factory for all KIE services
         KieServices ks = KieServices.Factory.get();

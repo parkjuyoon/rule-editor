@@ -3,57 +3,75 @@ package egovframework.example.sample.web;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
 public class DroolsScoreExample {
 
-
-    /**
-     * 计算额外积分金额 规则如下: 订单原价金额
-     * 100以下, 不加分
-     * 100-500 加100分
-     * 500-1000 加500分
-     * 1000 以上 加1000分
-     *
-     * @param args
-     * @throws Exception
-     */
-//    public static final void main(final String[] args) throws Exception{
-//        // KieServices is the factory for all KIE services
-//        KieServices ks = KieServices.Factory.get();
-//
-//        // From the kie services, a container is created from the classpath
-//        KieContainer kc = ks.getKieClasspathContainer();
-//
-//        execute( kc );
-//    }
-
-
     public static void execute( KieContainer kc ) throws Exception{
         // From the container, a session is created based on
         // its definition and configuration in the META-INF/kmodule.xml file
         KieSession ksession = kc.newKieSession("point-rulesKS");
 
-        List<Order> orderList = getInitData();
-
+//        List<Order> orderList = getInitData();
+//
+//        for (int i = 0; i < orderList.size(); i++) {
+//            Order o = orderList.get(i);
+//            ksession.insert(o);
+//            ksession.fireAllRules();
+//            addScore(o);
+//        }
+        
+        List<HashMap<String, Object>> orderList = new ArrayList<HashMap<String, Object>>();
+        HashMap<String, Object> order = new HashMap<String, Object>();
+        HashMap<String, Object> user = new HashMap<String, Object>();
+        
+        user.put("name", "Name1");
+        order.put("amout", "80");
+        order.put("score", "111");
+        order.put("user", user);
+        orderList.add(order);
+        
+        order = new HashMap<String, Object>();
+        user = new HashMap<String, Object>();
+        user.put("name", "Name2");
+        order.put("amout", "200");
+        order.put("user", user);
+        orderList.add(order);
+        
+        order = new HashMap<String, Object>();
+        user = new HashMap<String, Object>();
+        user.put("name", "Name3");
+        order.put("amout", "800");
+        order.put("user", user);
+        orderList.add(order);
+        
+        order = new HashMap<String, Object>();
+        user = new HashMap<String, Object>();
+        user.put("name", "Name4");
+        order.put("amout", "1000");
+        order.put("user", user);
+        orderList.add(order);
+        
         for (int i = 0; i < orderList.size(); i++) {
-            Order o = orderList.get(i);
-            ksession.insert(o);
-            ksession.fireAllRules();
-            // 执行完规则后, 执行相关的逻辑
-            addScore(o);
+        	HashMap<String, Object> o = orderList.get(i);
+        	ksession.insert(o);
+        	ksession.fireAllRules();
+        	addScore(o);
         }
-
+        
         ksession.dispose();
 
     }
 
   
-    private static void addScore(Order o){  
-        System.out.println("用户" + o.getUser().getName() + "享受额外增加积分: " + o.getScore());  
+    private static void addScore(HashMap<String, Object> o){  
+//        System.out.println("name : " + o.getUser().getName() + " score : " + o.getScore());  
+        System.out.println("name : " + ((HashMap<String, Object>)o.get("user")).get("name") + " score : " + o.get("score"));  
     }  
       
     private static List<Order> getInitData() throws Exception {  
