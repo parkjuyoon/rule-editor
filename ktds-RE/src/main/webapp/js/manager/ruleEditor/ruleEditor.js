@@ -6,6 +6,8 @@ $(document).ready(function() {
 		
 		var applyRuleArr = new Array();	// Rule 속성에 정의된 목록
 		var applyRuleObj = {};	// Rule 속성에 추가된 한개의 rule
+		var whenMapAttr_html = new Array();
+		var ruleAttrArr = new Array();
 			
 		$('.leftmenutrigger').on('click', function(e) {
 			$('.side-nav').toggleClass("open");
@@ -122,7 +124,7 @@ $(document).ready(function() {
 					
 					for(var i in dataList) {
 						html += "<label class='wd100p'>";
-						html += "	<input type='checkbox' name='detAttrChk' value='"+ dataList[i] +"'> ";
+						html += "	<input type='checkbox' name='detAttrChk' value='"+ dataList[i] +"' data-column_data_type='"+ res.column_data_type +"'> ";
 						html += 		dataList[i];
 						html += "	</input>";
 						html += "</label>";
@@ -137,27 +139,30 @@ $(document).ready(function() {
 			$("#detAttrColumn").text(column_comment);
 			$("#detAttrColumn").attr("data-column_name", column_name);
 			
-			$("#ruleAddBtn").attr("data-table_comment", table_comment);
-			$("#ruleAddBtn").attr("data-column_comment", column_comment);
-			$("#ruleAddBtn").attr("data-table_name", table_name);
-			$("#ruleAddBtn").attr("data-column_name", column_name);
+//			$("#attrAddBtn").attr("data-table_comment", table_comment);
+//			$("#attrAddBtn").attr("data-column_comment", column_comment);
+//			$("#attrAddBtn").attr("data-table_name", table_name);
+//			$("#attrAddBtn").attr("data-column_name", column_name);
 		});
 		
-		// Rule Add 버튼 클릭 이벤트
-		$("#ruleAddBtn").click(function() {
+		// 속성추가 버튼 클릭 이벤트
+		$("#attrAddBtn").click(function() {
 			var logical = $("input[name='logicalRadios']:checked").val();
 			var logical_txt = $("input[name='logicalRadios']:checked").siblings("span").text();
 			var relation = $("input[name='relationRadios']:checked").val();
 			var relation_txt = $("input[name='relationRadios']:checked").siblings("span").text();
 			
 			var detAttrChk = $("input[name='detAttrChk']:checked");
+			var column_dataType = detAttrChk.data("column_data_type");
+				
 			var detAttrChk_txt = "";
 			
 			if(logical == 'logical6' || logical == 'logical7') {
 				detAttrChk_txt += "("
 					
 				for(var i=0; i<detAttrChk.length; i++) {
-					detAttrChk_txt += detAttrChk.eq(i).val() + (i+1 == detAttrChk.length ? "" : ", ");
+					detAttrChk_txt += (column_dataType == 'int' ? detAttrChk.eq(i).val() : "\""+ detAttrChk.eq(i).val() +"\"") 
+										+ (i+1 == detAttrChk.length ? "" : ", ");
 				}
 				
 				detAttrChk_txt += ")";
@@ -168,7 +173,7 @@ $(document).ready(function() {
 					return;
 				}
 				
-				detAttrChk_txt = detAttrChk.val();
+				detAttrChk_txt = (column_dataType == 'int' ? detAttrChk.val() : "\""+ detAttrChk.val() +"\"");
 			}
 			
 			if(relation == 'relation3') {
@@ -207,28 +212,26 @@ $(document).ready(function() {
 			});
 			
 			applyRuleObj.detAttrChkArr = detAttrChkArr;
+			applyRuleObj.detAttrChk_txt = detAttrChk_txt;
 			// ---------------- applyRuleObj 값 저장 ----------------
 			
 			// when(Map Object) 구문 생성
-			var whenMapAttr_html = whenGenerator(applyRuleObj);
+			var whenMap_html = whenGenerator(applyRuleObj);
+			whenMapAttr_html.push(whenMap_html);
+			applyRuleObj.whenMapAttr_html = whenMapAttr_html;
 			
-			
-			// rule drl 생성
-			var ruleAttr = ruleGenerator(applyRuleObj); // (/js/manager/ruleEditor/drlGenerator.js)
-			
-			applyRuleArr.push(ruleAttr);
-			
-			console.log(applyRuleObj);
-			
+			console.log(whenMapAttr_html);
 		});
 		
 		// Rule 속성 minus 버튼 클릭 이벤트
 		$(document).on("click", "._ruleAttrMinus", function() {
+			console.log(whenMapAttr_html);
+			
 			$(this).closest("label").remove();
 		});
 		
-		// generate 버튼 클릭 이벤트
-		$("#drlGenBtn").click(function() {
+		// Rule 추가 버튼 이벤트
+		$("#ruleAddBtn").click(function() {
 			var ruleName = $("#ruleName").val();
 			
 			if(ruleName == '') {
@@ -238,8 +241,30 @@ $(document).ready(function() {
 			
 			applyRuleObj.ruleName = $("#ruleName").val();
 			
-			var drl_html = drlGenerator(applyRuleArr);	// (/js/manager/ruleEditor/drlGenerator.js)
+			// rule drl 생성
+			ruleAttrArr.push(ruleGenerator(applyRuleObj)); // (/js/manager/ruleEditor/drlGenerator.js)
+			$("#ruleAttCnt").text(ruleAttrArr.length);
+			
+			initObj();
+			
+		});
+		
+		// generate 버튼 클릭 이벤트
+		$("#drlGenBtn").click(function() {
+			applyRuleObj.ruleAttrArr = ruleAttrArr;
+			
+			var drl_html = drlGenerator(applyRuleObj);	// (/js/manager/ruleEditor/drlGenerator.js)
 			
 			$("#drlGenData").html(drl_html);
 		});
+		
+		function initObj() {
+			$("#ruleAttrData").html("");
+			$("#ruleName").val("");
+			$("#detAttrData").html("");
+			$("#detAttrTable").text("속성을 선택하세요.");
+			$("#detAttrColumn").text("");
+			applyRuleObj =  {};
+			whenMapAttr_html = [];
+		}
 	});

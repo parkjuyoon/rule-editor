@@ -11,4 +11,6 @@ public interface RuleEditorService {
 
 	List<String> detAttViewGetData(HashMap<String, Object> param);
 
+	String getColumnType(HashMap<String, Object> param);
+
 }

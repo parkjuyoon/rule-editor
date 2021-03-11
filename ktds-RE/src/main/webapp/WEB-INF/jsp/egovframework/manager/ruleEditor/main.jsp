@@ -85,7 +85,7 @@
 												<div class="radio">
 													<label> 
 														<input type="radio" name="logicalRadios" id="logicalRadios1" value="logical1" checked>
-														<span> = </span>
+														<span> == </span>
 													</label>
 												</div>
 												<div class="radio">
@@ -171,7 +171,7 @@
 									<fieldset class="">
 										<legend></legend>
 										<div id="detAttrData"></div>
-										<button type="button" class="btn btn-info" id="ruleAddBtn">Rule Add</button>
+										<button type="button" class="btn btn-info" id="attrAddBtn">속성 추가</button>
 									</fieldset>
 								</div>
 							</div>
@@ -179,10 +179,9 @@
 						<div class="col-md-6">
 							<div class="card">
 								<div class="card-body h517" id="ruleAttDiv">
-									<h5 class="card-title">Rule 속성</h5>
+									<h5 class="card-title">Rule 속성 (<span id="ruleAttCnt">0</span> 건 추가)</h5>
 									<h6 class="card-subtitle mb-2 text-muted">Rule Name : <input type="text" placeholder="Rule Name을 입력하세요." id="ruleName"/></h6>
-									<button type="button" class="btn btn-info" id="ruleApplyBtn">Rule Apply</button>
-									<button type="button" class="btn btn-info" id="drlGenBtn">Generate</button>
+									<button type="button" class="btn btn-info" id="ruleAddBtn">Rule 추가</button>
 									<fieldset class="">
 										<legend></legend>
 										<div id="ruleAttrData"></div>
@@ -196,9 +195,16 @@
 							<div class="card">
 								<div class="card-body h300">
 									<h5 class="card-title">DRL Generated</h5>
+									<h6 class="card-subtitle mb-2 text-muted">
+										<span id="detAttrTable">적용될 DRL을 생성합니다.</span>
+									</h6>
+									<button type="button" class="btn btn-info" id="drlGenBtn">DRL 생성</button>
+									<button type="button" class="btn btn-info" id="ruleApplyBtn">Rule 적용</button>
 									<fieldset class="">
 										<legend></legend>
-										<div id="drlGenData"></div>
+										<div>
+											<pre class="h240" id="drlGenData"></pre>
+										</div>
 									</fieldset>
 								</div>
 							</div>

@@ -32,6 +32,15 @@ function whenGenerator(applyRuleObj) {
 function ruleGenerator(applyRuleObj) {
 	var returnVal = "";
 	
+	var whenMapArr_html = applyRuleObj.whenMapAttr_html;
+	var whenMap_html = "";
+	
+	for(var i in whenMapArr_html) {
+		whenMap_html += whenMapArr_html[i];
+	}
+	
+	applyRuleObj.whenMap_html = whenMap_html;
+	
 	$.ajax({
 		url : "/template/manager/ruleEditor/ruleTemplate.jsp",
 		dataType : "html",
@@ -55,17 +64,19 @@ function ruleGenerator(applyRuleObj) {
 /**
  * Rule Generate 할 때 최종 DRL 파일 내용 생성
  */
-function drlGenerator(applyRuleArr) {
-	var returnVal = "";
-	var drl_html = "";
+function drlGenerator(applyRuleObj) {
+	var ruleAttrArr = applyRuleObj.ruleAttrArr;
+	var ruleAttr = "";
 	
-	for(var i in applyRuleArr) {
-		drl_html += applyRuleArr[i];
+	for(var i in ruleAttrArr) {
+		ruleAttr += ruleAttrArr[i];
 	}
+	
+	var returnVal = "";
 	
 	var paramObj = {
 			header : header,
-			drl_html : drl_html
+			ruleAttr : ruleAttr
 	};
 	
 	$.ajax({

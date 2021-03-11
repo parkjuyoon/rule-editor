@@ -42,12 +42,23 @@ body {
 	height: 250px;
 }
 
+.h240 {
+	height: 240px;
+}
+
 #detAttrDiv {
 	position: relative;
 }
 
 #ruleAttDiv {
 	position: relative;
+}
+
+#attrAddBtn {
+	position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
 }
 
 #ruleAddBtn {
@@ -117,3 +128,6 @@ body {
 	width: 100%;
 }
 
+#drlGenData {
+	overflow: scroll;
+}

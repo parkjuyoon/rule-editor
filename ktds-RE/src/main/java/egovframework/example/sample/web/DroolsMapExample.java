@@ -10,25 +10,25 @@ public class DroolsMapExample {
     public static void execute( KieContainer kc ) throws Exception{
         KieSession ksession = kc.newKieSession("MapExampleKS");
 
-        
-        HashMap<String, Object> order = new HashMap<String, Object>();
         HashMap<String, Object> user = new HashMap<String, Object>();
         
-        user.put("name", "Name1");
-        order.put("amout", "250");
-        order.put("score", "111");
-        order.put("user", user);
+        user.put("CUST_ACC_NO", "1");
+        user.put("CUST_CTG_TYPE_NM", "개인");
+        user.put("SEX_TYPE_NM", "남");
+        user.put("CUST_AGE", 40);
+        user.put("CUST_CLAS_NM", "GOLD");
         
-    	ksession.insert(order);
+    	ksession.insert(user);
     	ksession.fireAllRules();
-    	addScore(order);
+    	addScore(user);
         
         ksession.dispose();
 
     }
 
-    private static void addScore(HashMap<String, Object> o){  
-//        System.out.println("name : " + o.getUser().getName() + " score : " + o.getScore());  
-        System.out.println("name : " + ((HashMap<String, Object>)o.get("user")).get("name") + " score : " + o.get("score"));  
+    private static void addScore(HashMap<String, Object> rtn){ 
+    	System.out.println("--- 결과 ---");
+        System.out.println("MATCH : " + (rtn.get("RETURN") == null ? "N" : "Y"));  
+        System.out.println("RETURN VALUE: " + rtn.get("RETURN"));
     }  
 }  

@@ -63,8 +63,10 @@ public class RuleEditorController {
 		param.put("schema", schema);
 		
 		List<String> dataList = ruleEditorService.detAttViewGetData(param);
+		String column_data_type = ruleEditorService.getColumnType(param);
 		
 		dataInfo.put("dataList", dataList);
+		dataInfo.put("column_data_type", column_data_type);
 		
 		return dataInfo;
 	}

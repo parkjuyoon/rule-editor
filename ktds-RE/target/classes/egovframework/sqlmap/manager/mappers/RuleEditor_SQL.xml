@@ -30,5 +30,16 @@
 		FROM 
 			${schema}.${table_name}
 	</select>
+	
+	<select id="getColumnType" resultType="string" parameterType="java.util.HashMap">
+		SELECT 
+			DATA_TYPE
+		FROM 
+			INFORMATION_SCHEMA.COLUMNS
+		WHERE 
+			TABLE_SCHEMA = #{schema}
+			AND TABLE_NAME = #{table_name}
+			AND COLUMN_NAME = #{column_name}
+	</select>
 
 </mapper>

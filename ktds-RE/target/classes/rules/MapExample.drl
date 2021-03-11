@@ -1,48 +1,26 @@
-package rules
-
+package rule
 import java.util.Map
 
-rule "m_zero"
+rule "고객 룰1"
     no-loop true
     lock-on-active true
     salience 1
     when
-        $s : Map(this["amout"] <= 100)
+        $map : Map(
+		this["SEX_TYPE_NM"] == "남" && 
+		this["CUST_AGE"] > 30 && 
+		this["CUST_CLAS_NM"] == "GOLD"  )
     then
-        $s.put("score",0);
-        update($s);
-        System.out.println( $s.get("amout") );
+        $map.put("RETURN", "Y");
 end
 
-rule "m_add100"
+rule "고객룰2"
     no-loop true
     lock-on-active true
     salience 1
     when
-        $s : Map(this["amout"] > 100 && this["amout"] <= 500)
+        $map : Map(
+		this["SMPH_USE_YN"] == "Y"  )
     then
-        $s.put("score",400);
-        update($s);
-end
-
-rule "m_add500"
-    no-loop true
-    lock-on-active true
-    salience 1
-    when
-        $s : Map(this["amout"] > 500 && this["amout"] <= 1000)
-    then
-        $s.put("score",500);
-        update($s);
-end
-
-rule "m_add1000"
-    no-loop true
-    lock-on-active true
-    salience 1
-    when
-        $s : Map(this["amout"] > 1000)
-    then
-        $s.put("score",1000);
-        update($s);
+        $map.put("RETURN", "Y");
 end
