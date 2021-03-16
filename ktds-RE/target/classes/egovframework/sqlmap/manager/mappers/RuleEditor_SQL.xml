@@ -15,13 +15,13 @@
 	<select id="getColumnByTable" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		SELECT 
 			COLUMN_NAME,
-			COLUMN_COMMENT
+			SUBSTRING_INDEX(COLUMN_COMMENT, '::', -1) COLUMN_COMMENT
 		FROM 
 			INFORMATION_SCHEMA.COLUMNS
 		WHERE 
 			TABLE_SCHEMA = #{schema}
 			AND TABLE_NAME = #{table_name}
-			AND COLUMN_KEY = ''
+			AND SUBSTRING_INDEX(COLUMN_COMMENT, '::', 1) = 'Y'
 	</select>
 	
 	<select id="detAttViewGetData" resultType="string" parameterType="java.util.HashMap">

@@ -1,26 +1,37 @@
 package rule
 import java.util.Map
 
-rule "고객 룰1"
+rule "고객 룰"
     no-loop true
     lock-on-active true
     salience 1
     when
         $map : Map(
-		this["SEX_TYPE_NM"] == "남" && 
-		this["CUST_AGE"] > 30 && 
-		this["CUST_CLAS_NM"] == "GOLD"  )
+		this["SEX_TYPE_NM"] == "여자" &&
+		this["CUST_CTG_TYPE_NM"] == "개인" )
     then
-        $map.put("RETURN", "Y");
+        $map.put("RuleName_고객 룰", "Y");
 end
 
-rule "고객룰2"
+rule "등급룰"
     no-loop true
     lock-on-active true
-    salience 1
+    salience 2
     when
         $map : Map(
-		this["SMPH_USE_YN"] == "Y"  )
+		this["SMPH_USE_YN"] == "Y" &&
+		this["CUST_CLAS_NM"] == "Gold" )
     then
-        $map.put("RETURN", "Y");
+        $map.put("RuleName_등급룰", "Y");
+end
+
+rule "미납룰"
+    no-loop true
+    lock-on-active true
+    salience 3
+    when
+        $map : Map(
+		this["NPAY_YN"] == "N" )
+    then
+        $map.put("RuleName_미납룰", "Y");
 end

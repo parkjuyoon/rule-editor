@@ -6,5 +6,5 @@ rule "${param.ruleName }"
     when
         $map : Map(${param.whenMap_html })
     then
-        $map.put("RETURN", "Y");
+        $map.put("RuleName_${param.ruleName }", "Y");
 end

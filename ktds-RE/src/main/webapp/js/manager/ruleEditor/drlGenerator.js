@@ -39,6 +39,16 @@ function ruleGenerator(applyRuleObj) {
 		whenMap_html += whenMapArr_html[i];
 	}
 	
+	// 룰 속성이 추가 되어 있지 않을 경우 취소
+	if(typeof(whenMapArr_html) == "undefined" || whenMap_html == "") {
+		return returnVal;
+	}
+	
+	// 관계연산이 NONE 이 아닌경우 취소
+	if(whenMap_html.endsWith("&&") || whenMap_html.endsWith("||")) {
+		return "-1";
+	}
+	
 	applyRuleObj.whenMap_html = whenMap_html;
 	
 	$.ajax({

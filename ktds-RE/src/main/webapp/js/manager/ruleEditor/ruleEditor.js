@@ -138,11 +138,6 @@ $(document).ready(function() {
 			$("#detAttrTable").attr("data-table_name", table_name);
 			$("#detAttrColumn").text(column_comment);
 			$("#detAttrColumn").attr("data-column_name", column_name);
-			
-//			$("#attrAddBtn").attr("data-table_comment", table_comment);
-//			$("#attrAddBtn").attr("data-column_comment", column_comment);
-//			$("#attrAddBtn").attr("data-table_name", table_name);
-//			$("#attrAddBtn").attr("data-column_name", column_name);
 		});
 		
 		// 속성추가 버튼 클릭 이벤트
@@ -155,6 +150,18 @@ $(document).ready(function() {
 			var detAttrChk = $("input[name='detAttrChk']:checked");
 			var column_dataType = detAttrChk.data("column_data_type");
 				
+			// 관계연산 NONE 뒤에 추가 할 수 없음.
+			var relationChk = whenMapAttr_html[whenMapAttr_html.length-1];
+			
+			if(typeof(relationChk) != "undefined") {
+				if(!relationChk.endsWith("&&") && !relationChk.endsWith("||")) {
+					alert("관계연산이 끝난 Rule 속성 이후 추가 할 수 없습니다.");
+					return;
+				}
+			}
+			
+			
+			// 논리연산 IN, NOT IN 선택
 			var detAttrChk_txt = "";
 			
 			if(logical == 'logical6' || logical == 'logical7') {
@@ -166,7 +173,8 @@ $(document).ready(function() {
 				}
 				
 				detAttrChk_txt += ")";
-				
+			
+			// 논리연산 IN, NOT IN 이 아닌 값을 선택시
 			} else {
 				if(detAttrChk.length > 1) {
 					alert("상세 속성을 한 가지만 선택하세요.");
@@ -213,19 +221,19 @@ $(document).ready(function() {
 			
 			applyRuleObj.detAttrChkArr = detAttrChkArr;
 			applyRuleObj.detAttrChk_txt = detAttrChk_txt;
-			// ---------------- applyRuleObj 값 저장 ----------------
 			
 			// when(Map Object) 구문 생성
 			var whenMap_html = whenGenerator(applyRuleObj);
 			whenMapAttr_html.push(whenMap_html);
 			applyRuleObj.whenMapAttr_html = whenMapAttr_html;
-			
-			console.log(whenMapAttr_html);
+			// ---------------- applyRuleObj 값 저장 ----------------
 		});
 		
 		// Rule 속성 minus 버튼 클릭 이벤트
 		$(document).on("click", "._ruleAttrMinus", function() {
-			console.log(whenMapAttr_html);
+			var delIdx = $("._ruleAttrMinus").index(this);
+		
+			whenMapAttr_html.splice(delIdx, 1);
 			
 			$(this).closest("label").remove();
 		});
@@ -242,7 +250,18 @@ $(document).ready(function() {
 			applyRuleObj.ruleName = $("#ruleName").val();
 			
 			// rule drl 생성
-			ruleAttrArr.push(ruleGenerator(applyRuleObj)); // (/js/manager/ruleEditor/drlGenerator.js)
+			var ruleGenStr = ruleGenerator(applyRuleObj);
+
+			if("-1" == ruleGenStr) {
+				alert("룰 속성 정의가 올바르지 않습니다.\n마지막 속성은 NONE으로 설정하세요.");
+				return;
+				
+			} else if("" == ruleGenStr) {
+				alert("룰 속성을 먼저 추가 하세요.");
+				return;
+			}
+			
+			ruleAttrArr.push(ruleGenStr); // (/js/manager/ruleEditor/drlGenerator.js)
 			$("#ruleAttCnt").text(ruleAttrArr.length);
 			
 			initObj();
