@@ -1,37 +1,47 @@
 package rule
 import java.util.Map
 
-rule "고객 룰"
-    no-loop true
-    lock-on-active true
-    salience 1
-    when
-        $map : Map(
-		this["SEX_TYPE_NM"] == "여자" &&
-		this["CUST_CTG_TYPE_NM"] == "개인" )
-    then
-        $map.put("RuleName_고객 룰", "Y");
-end
-
-rule "등급룰"
-    no-loop true
-    lock-on-active true
-    salience 2
-    when
-        $map : Map(
-		this["SMPH_USE_YN"] == "Y" &&
-		this["CUST_CLAS_NM"] == "Gold" )
-    then
-        $map.put("RuleName_등급룰", "Y");
-end
-
-rule "미납룰"
+rule "고객룰"
     no-loop true
     lock-on-active true
     salience 3
     when
         $map : Map(
+		this["SEX_TYPE_NM"] == "여자" &&
+		this["CUST_AGE"] == 24 )
+    then
+        $map.put("RuleName_고객룰", 3.1);
+end
+
+rule "스마트폰 룰"
+    no-loop true
+    lock-on-active true
+    salience 3
+    when
+        $map : Map(
+		this["SMPH_USE_YN"] == "Y" )
+    then
+        $map.put("RuleName_스마트폰 룰", 3.2);
+end
+
+rule "미납룰"
+    no-loop true
+    lock-on-active true
+    salience 1
+    when
+        $map : Map(
 		this["NPAY_YN"] == "N" )
     then
-        $map.put("RuleName_미납룰", "Y");
+        $map.put("RuleName_미납룰", 1.3);
+end
+
+rule "분류유형"
+    no-loop true
+    lock-on-active true
+    salience 2
+    when
+        $map : Map(
+		this["CUST_CTG_TYPE_NM"] == "개인" )
+    then
+        $map.put("RuleName_분류유형", 2.4);
 end

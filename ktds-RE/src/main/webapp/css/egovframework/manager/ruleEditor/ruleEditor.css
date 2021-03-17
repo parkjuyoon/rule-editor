@@ -46,6 +46,14 @@ body {
 	height: 240px;
 }
 
+.h150 {
+	height: 150px;
+}
+
+.h350 {
+	height: 350px;
+}
+
 #detAttrDiv {
 	position: relative;
 }
@@ -54,14 +62,7 @@ body {
 	position: relative;
 }
 
-#attrAddBtn {
-	position: absolute;
-    top: 0;
-    right: 0;
-    margin: 10px;
-}
-
-#ruleAddBtn {
+.addDefaultbtn {
 	position: absolute;
     top: 0;
     right: 0;

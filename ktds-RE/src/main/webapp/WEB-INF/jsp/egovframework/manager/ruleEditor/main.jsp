@@ -8,9 +8,13 @@
 
 <script type="text/javascript" src="/common/js/jquery-3.6.0.min.js"></script>
 <script src="/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
-<script src="/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/bootstrap-3.3.2-dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/bootstrap-3.3.2-dist/css/bootstrap-theme.min.css">
 <link href="/common/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 팝업 오픈 라이브러리 -->
+<link href="/common/css/pjyPopup.css" rel="stylesheet">
+<script type="text/javascript" src="/common/js/pjyPopup.js"></script>
 
 <script type="text/javascript" src="/js/manager/ruleEditor/ruleEditor.js"></script>
 <script type="text/javascript" src="/js/manager/ruleEditor/drlGenerator.js"></script>
@@ -18,6 +22,44 @@
 
 </head>
 <body>
+
+	<!-- Rule Option 선택 팝업 
+	<div id="pjyPopup" class="hide">
+		<div class="container">
+			<div class="header">
+				<h5>Rule 옵션 선택</h5>
+			</div>
+			<div class="body">
+				<fieldset>
+					<div>
+						<label> 
+							<span> no-loop </span>
+							<input type="radio" name="opt1" id="" value="true" checked> TRUE
+							<input type="radio" name="opt1" id="" value="flase" > FALSE 
+						</label>
+					</div>
+					<div>
+						<label> 
+							<span> lock-on-active </span>
+							<input type="radio" name="opt2" id="" value="true" checked> TRUE
+							<input type="radio" name="opt2" id="" value="flase" > FALSE 
+						</label>
+					</div>
+					<div>
+						<label> 
+							<span> salience </span>
+							<input type="text" name="opt3" placeholder="숫자만 입력가능합니다.">
+						</label>
+					</div>
+				</fieldset>
+			</div>
+			<div class="footer">
+				<button onclick="closePopup()">닫기</button>
+			</div>
+		</div>
+	</div>
+	-->
+
 	<div id="wrapper" class="animate">
 		<nav class="navbar header-top fixed-top navbar-expand-lg  navbar-dark bg-dark">
 			<span class="navbar-toggler-icon leftmenutrigger"></span>
@@ -171,21 +213,57 @@
 									<fieldset class="">
 										<legend></legend>
 										<div id="detAttrData"></div>
-										<button type="button" class="btn btn-info" id="attrAddBtn">속성 추가</button>
+										<button type="button" class="btn btn-info addDefaultbtn" id="attrAddBtn">속성 추가</button>
 									</fieldset>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-6">
-							<div class="card">
-								<div class="card-body h517" id="ruleAttDiv">
-									<h5 class="card-title">Rule 속성 (<span id="ruleAttCnt">0</span> 건 추가)</h5>
-									<h6 class="card-subtitle mb-2 text-muted">Rule Name : <input type="text" placeholder="Rule Name을 입력하세요." id="ruleName"/></h6>
-									<button type="button" class="btn btn-info" id="ruleAddBtn">Rule 추가</button>
-									<fieldset class="">
-										<legend></legend>
-										<div id="ruleAttrData"></div>
-									</fieldset>
+							<div class="row">
+								<div class="col">
+									<div class="card">
+										<div class="card-body h150" id="">
+											<h5 class="card-title">Rule Option</h5>
+											<fieldset>
+												<legend></legend>
+												<div>
+													<label> 
+														<span> no-loop </span>
+														<input type="radio" style="margin-left: 35px;" name="opt1" id="" value="true" checked> TRUE
+														<input type="radio" style="margin-left: 3px;" name="opt1" id="" value="false" > FALSE 
+													</label>
+												</div>
+												<div>
+													<label> 
+														<span> lock-on-active </span>
+														<input type="radio" style="margin-left: 5px;" name="opt2" id="" value="true" checked> TRUE
+														<input type="radio" style="margin-left: 3px;" name="opt2" id="" value="false" > FALSE 
+													</label>
+												</div>
+												<div>
+													<label> 
+														<span> salience </span>
+														<input type="text" style="margin-left: 35px; width:172px;" name="opt3" placeholder="숫자만 입력가능합니다. (default : 1)">
+													</label>
+												</div>
+											</fieldset>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<div class="card">
+										<div class="card-body h350" id="ruleAttDiv">
+											<h5 class="card-title">Rule 속성 (<span id="ruleAttCnt">0</span> 건 추가)</h5>
+											<h6 class="card-subtitle mb-2 text-muted">Rule Name : <input type="text" placeholder="Rule Name을 입력하세요." id="ruleName"/></h6>
+											<button type="button" class="btn btn-info addDefaultbtn" id="ruleAddBtn">Rule 추가</button>
+											<fieldset class="">
+												<legend></legend>
+												<div id="ruleAttrData"></div>
+											</fieldset>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -214,5 +292,6 @@
 			</div>
 		</div>
 	</div>
+	
 </body>
 </html>

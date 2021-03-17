@@ -8,6 +8,7 @@ $(document).ready(function() {
 		var applyRuleObj = {};	// Rule 속성에 추가된 한개의 rule
 		var whenMapAttr_html = new Array();
 		var ruleAttrArr = new Array();
+		var ruleAddCnt = 0; // 룰 추가한 순서를 저장
 			
 		$('.leftmenutrigger').on('click', function(e) {
 			$('.side-nav').toggleClass("open");
@@ -249,15 +250,27 @@ $(document).ready(function() {
 			
 			applyRuleObj.ruleName = $("#ruleName").val();
 			
+			// Rule 옵션 추가
+			var opt1 = $("input[name='opt1']:checked").val();
+			var opt2 = $("input[name='opt2']:checked").val();
+			var opt3 = $("input[name='opt3']").val() == "" ? 1 : $("input[name='opt3']").val();
+			
+			applyRuleObj.opt1 = opt1;
+			applyRuleObj.opt2 = opt2;
+			applyRuleObj.opt3 = opt3;
+			applyRuleObj.ruleAddCnt = ++ruleAddCnt; // 룰 추가한 순서 증가
+			
 			// rule drl 생성
 			var ruleGenStr = ruleGenerator(applyRuleObj);
 
 			if("-1" == ruleGenStr) {
 				alert("룰 속성 정의가 올바르지 않습니다.\n마지막 속성은 NONE으로 설정하세요.");
+				--ruleAddCnt; // 실패시 룰 추가한 순서 감소
 				return;
 				
 			} else if("" == ruleGenStr) {
 				alert("룰 속성을 먼저 추가 하세요.");
+				--ruleAddCnt; // 실패시 룰 추가한 순서 감소
 				return;
 			}
 			
