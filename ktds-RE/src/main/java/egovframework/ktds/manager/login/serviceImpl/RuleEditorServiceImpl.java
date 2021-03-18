@@ -37,4 +37,9 @@ public class RuleEditorServiceImpl extends EgovAbstractServiceImpl implements Ru
 		return dao.getColumnType(param);
 	}
 
+	@Override
+	public HashMap<String, Object> test(String custAccNo) {
+		return dao.test(custAccNo);
+	}
+
 }

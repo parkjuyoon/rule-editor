@@ -42,4 +42,12 @@
 			AND COLUMN_NAME = #{column_name}
 	</select>
 
+	<select id="test" parameterType="string" resultType="java.util.HashMap">
+		SELECT
+			*
+		FROM
+			RULE_EDITOR.EV_CUST_ITEM1_TXN
+		WHERE
+			CUST_ACC_NO = #{value}
+	</select>
 </mapper>

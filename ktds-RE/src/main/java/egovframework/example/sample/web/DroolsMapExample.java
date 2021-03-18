@@ -12,33 +12,32 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 
 public class DroolsMapExample {
+	
+	private static HashMap<String, Object> ruleMap;
+	
+	public DroolsMapExample(HashMap<String, Object> map) {
+		this.ruleMap = map;
+	}
 
-    public static void execute( KieContainer kc ) throws Exception{
+    public static List<String> execute( KieContainer kc ) throws Exception{
         KieSession ksession = kc.newKieSession("MapExampleKS");
 
-        HashMap<String, Object> user = new HashMap<String, Object>();
-        
-        user.put("CUST_ACC_NO", "5CF4DNCR2HN");
-        user.put("CUST_CTG_TYPE_NM", "개인");
-        user.put("SEX_TYPE_NM", "여자");
-        user.put("CUST_AGE", 24);
-        user.put("CUST_CLAS_NM", "Gold");
-        user.put("SMPH_USE_YN", "Y");
-        user.put("NPAY_YN", "N");
-        
-    	ksession.insert(user);
+    	ksession.insert(ruleMap);
     	ksession.fireAllRules();
     	
-    	print(user);
+    	List<String> returnList = print(ruleMap);
         
         ksession.dispose();
-
+        
+        return returnList;
     }
     
     @SuppressWarnings("rawtypes")
-	private static void print(HashMap<String, Object> rtn){ 
+	private static List<String> print(HashMap<String, Object> rtn){ 
     	Iterator<String> iter = rtn.keySet().iterator();
     	HashMap<String, Object> resultMap = new HashMap<>();
+    	
+    	List<String> returnList = new ArrayList<>();
     	
     	while(iter.hasNext()) {
     		String key = iter.next();
@@ -53,8 +52,14 @@ public class DroolsMapExample {
     	
     	while(it.hasNext()) {
     		String key = (String) it.next();
-            System.out.println(key.replace("RuleName_", "") + " = Y");
+    		String printStr = key.replace("RuleName_", "") + " = Y";
+    				
+            System.out.println(printStr);
+    		
+            returnList.add(printStr);
     	}
+    	
+    	return returnList;
     }  
     
     @SuppressWarnings({ "unchecked", "rawtypes" })

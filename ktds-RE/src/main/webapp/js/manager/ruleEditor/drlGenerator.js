@@ -3,7 +3,7 @@
  */
 var header = "";
 header += "package rule";
-header += "<br>";
+header += "\n";
 header += "import java.util.Map";
 
 function whenGenerator(applyRuleObj) {

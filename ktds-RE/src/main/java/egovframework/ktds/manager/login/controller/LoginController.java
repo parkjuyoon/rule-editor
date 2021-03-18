@@ -20,15 +20,15 @@ public class LoginController {
 	public String login() throws Exception {
 		
 //		DroolsScoreExample dse = new DroolsScoreExample();
-		DroolsMapExample dse = new DroolsMapExample();
-		
-		// KieServices is the factory for all KIE services
-        KieServices ks = KieServices.Factory.get();
-
-        // From the kie services, a container is created from the classpath
-        KieContainer kc = ks.getKieClasspathContainer();
-
-        dse.execute( kc );
+//		DroolsMapExample dse = new DroolsMapExample();
+//		
+//		// KieServices is the factory for all KIE services
+//        KieServices ks = KieServices.Factory.get();
+//
+//        // From the kie services, a container is created from the classpath
+//        KieContainer kc = ks.getKieClasspathContainer();
+//
+//        dse.execute( kc );
         
 		return "login";
 	}

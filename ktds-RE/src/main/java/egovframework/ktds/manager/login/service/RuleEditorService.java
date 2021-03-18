@@ -13,4 +13,6 @@ public interface RuleEditorService {
 
 	String getColumnType(HashMap<String, Object> param);
 
+	HashMap<String, Object> test(String custAccNo);
+
 }

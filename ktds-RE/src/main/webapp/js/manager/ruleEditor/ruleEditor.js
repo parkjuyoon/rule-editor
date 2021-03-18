@@ -9,6 +9,7 @@ $(document).ready(function() {
 		var whenMapAttr_html = new Array();
 		var ruleAttrArr = new Array();
 		var ruleAddCnt = 0; // 룰 추가한 순서를 저장
+		var drl_html = ""; // 최종 생성된 drl rule
 			
 		$('.leftmenutrigger').on('click', function(e) {
 			$('.side-nav').toggleClass("open");
@@ -285,7 +286,7 @@ $(document).ready(function() {
 		$("#drlGenBtn").click(function() {
 			applyRuleObj.ruleAttrArr = ruleAttrArr;
 			
-			var drl_html = drlGenerator(applyRuleObj);	// (/js/manager/ruleEditor/drlGenerator.js)
+			drl_html = drlGenerator(applyRuleObj);	// (/js/manager/ruleEditor/drlGenerator.js)
 			
 			$("#drlGenData").html(drl_html);
 		});
@@ -299,4 +300,73 @@ $(document).ready(function() {
 			applyRuleObj =  {};
 			whenMapAttr_html = [];
 		}
+		
+		// 룰 적용 버튼 이벤트
+		$("#ruleApplyBtn").click(function() {
+			var drl_data = $("#drlGenData").text();
+			
+			$.ajax({
+				url:"/ruleEditor/ruleApply.do",
+				type :"POST",
+				data:{"drl_data":drl_data},
+				
+			}).done(function(res) {
+				console.log(res);
+				
+			}).fail(function(jqXHR, textStatus, errorThrown) {
+				console.log("에러")
+				console.log(jqXHR)
+				console.log(textStatus)
+				console.log(errorThrown)
+			});
+		});
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		// ---------------------------------------------- 룰 테스트 버튼
+		$("#ruleTestBtn").click(function() {
+			showPopup(true);
+		});
+		
+		$("#testBtn").click(function() {
+			var custAccNo = $("input[name='testUrl']").val();
+			
+			if(custAccNo == "") {
+				alert("CUST_ACC_NO 를 입력하세요.");
+				return;
+			}
+			
+			$.ajax({
+				url:"/ruleEditor/test.do",
+				type :"GET",
+				data:{"CUST_ACC_NO":custAccNo},
+				
+			}).done(function(res) {
+				var msg = "";
+				for(var i in res) {
+					msg += res[i] + "\n";
+				}
+				
+				alert(msg);
+				
+				$("input[name='testUrl']").val("");
+				
+			}).fail(function(jqXHR, textStatus, errorThrown) {
+				console.log("에러")
+				console.log(jqXHR)
+				console.log(textStatus)
+				console.log(errorThrown)
+			});
+		});
 	});

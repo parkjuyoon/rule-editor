@@ -132,3 +132,13 @@ body {
 #drlGenData {
 	overflow: scroll;
 }
+
+
+/* ruleTest btn --------------------- */
+#ruleTestBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 145px;
+    margin-top: 10px;
+}

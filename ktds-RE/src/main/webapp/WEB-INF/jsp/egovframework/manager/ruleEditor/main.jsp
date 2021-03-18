@@ -23,7 +23,7 @@
 </head>
 <body>
 
-	<!-- Rule Option 선택 팝업 
+	<!-- Rule Option 선택 팝업
 	<div id="pjyPopup" class="hide">
 		<div class="container">
 			<div class="header">
@@ -59,6 +59,28 @@
 		</div>
 	</div>
 	-->
+	
+	<div id="pjyPopup" class="hide">
+		<div class="container">
+			<div class="header">
+				<h5>Rule Test</h5>
+			</div>
+			<div class="body">
+				<fieldset>
+					<div>
+						<label> 
+							<span>URL : </span>
+							<input type="text" style="width: 430px;" name="testUrl" placeholder="CUST_ACC_NO를 입력하세요." value="5CF4DNCR2HN">
+						</label>
+					</div>
+				</fieldset>
+			</div>
+			<div class="footer">
+				<button onclick="closePopup()">닫기</button>
+				<button id="testBtn">테스트</button>
+			</div>
+		</div>
+	</div>
 
 	<div id="wrapper" class="animate">
 		<nav class="navbar header-top fixed-top navbar-expand-lg  navbar-dark bg-dark">
@@ -278,6 +300,7 @@
 									</h6>
 									<button type="button" class="btn btn-info" id="drlGenBtn">DRL 생성</button>
 									<button type="button" class="btn btn-info" id="ruleApplyBtn">Rule 적용</button>
+									<button type="button" class="btn btn-info" id="ruleTestBtn">Rule 테스트</button>
 									<fieldset class="">
 										<legend></legend>
 										<div>

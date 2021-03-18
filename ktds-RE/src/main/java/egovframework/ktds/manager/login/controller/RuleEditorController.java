@@ -1,10 +1,13 @@
 package egovframework.ktds.manager.login.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kie.api.KieServices;
+import org.kie.api.runtime.KieContainer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.example.sample.web.DroolsMapExample;
+import egovframework.example.sample.web.DroolsScoreExample;
 import egovframework.ktds.manager.login.service.RuleEditorService;
 
 @RequestMapping("/ruleEditor")
@@ -69,6 +74,57 @@ public class RuleEditorController {
 		dataInfo.put("column_data_type", column_data_type);
 		
 		return dataInfo;
+	}
+	
+	/**
+	 * 룰 적용 
+	 * @param custAccNo
+	 * @param column_name
+	 * @return
+	 * @throws Exception 
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/ruleApply.do", method = RequestMethod.POST)
+	public void ruleApply(@RequestParam("drl_data") String drl_data) throws Exception {
+		
+		HashMap<String, Object> user = null;
+		
+		String filepath = "/ktds-RE/src/main/resources/rules/MapExample.drl";
+		String fileName = "";
+		
+//		File file = new File(filepath + File.separator + fileName);
+		
+		File file = new File("0.txt");
+		
+		String path = file.getAbsolutePath();
+		
+		System.out.println(path);
+		
+		
+	}
+	
+	/**
+	 * 테스트 url
+	 * @param custAccNo
+	 * @param column_name
+	 * @return
+	 * @throws Exception 
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/test.do", method = RequestMethod.GET)
+	public List<String> test(@RequestParam("CUST_ACC_NO") String custAccNo) throws Exception {
+		
+		HashMap<String, Object> user = ruleEditorService.test(custAccNo);
+		
+		DroolsMapExample dse = new DroolsMapExample(user);
+		
+		// KieServices is the factory for all KIE services
+		KieServices ks = KieServices.Factory.get();
+		
+		// From the kie services, a container is created from the classpath
+		KieContainer kc = ks.getKieClasspathContainer();
+		
+		return dse.execute( kc );
 	}
 
 }
