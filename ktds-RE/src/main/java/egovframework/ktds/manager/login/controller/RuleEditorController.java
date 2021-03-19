@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.example.sample.web.DroolsMapExample;
-import egovframework.example.sample.web.DroolsScoreExample;
 import egovframework.ktds.manager.login.service.RuleEditorService;
 
 @RequestMapping("/ruleEditor")

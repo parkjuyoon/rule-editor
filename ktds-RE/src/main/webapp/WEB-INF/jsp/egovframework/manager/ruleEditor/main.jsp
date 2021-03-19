@@ -98,10 +98,10 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Side Menu Items</a>
+						<a class="nav-link" href="#">Service List</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">Pricing</a>
+						<a class="nav-link" href="/ruleManager/ruleListView.do">Rule List</a>
 					</li>
 				</ul>
 				<ul class="navbar-nav ml-md-auto d-md-flex">
@@ -179,13 +179,13 @@
 												<div class="radio">
 													<label> 
 														<input type="radio" name="logicalRadios" id="logicalRadios6" value="logical6">
-														<span> IN </span>
+														<span> in </span>
 													</label>
 												</div>
 												<div class="radio">
 													<label> 
 														<input type="radio" name="logicalRadios" id="logicalRadios7" value="logical7">
-														<span> NOT IN </span>
+														<span> not in </span>
 													</label>
 												</div>
 											</fieldset>
