@@ -1,16 +1,28 @@
 /**
  * 
  */
-
-function paging(totalCnt, curPage) {	// totalCnt:데이터 총 개수, curPage:선택된 페이지
-	var perPage = 10; // 한화면에 나타날 페이지 단위
-	var pageCnt = Math.ceil(totalCnt / perPage); // 개수에 따른 실제 페이지 개수
-	var first = 0;
-	var last = 0;
+function paging(totalCnt, pageNum) {	// totalCnt:데이터 총 개수, pageNum:선택된 페이지
+	var pageGroup = Math.floor(pageNum/10);
+	
+	if(pageNum%10 == 0) {
+		pageGroup -= 1;
+	}
+	
+	var firstPageNum = pageGroup*10+1;
+	var lastPageNum = pageGroup*10+10;
+	
+	var maxPageNum = Math.ceil(totalCnt / 10);
+	
+	if(lastPageNum > maxPageNum) {
+		lastPageNum = maxPageNum;
+	}
 	
 	var pageInfo = {};
-	pageInfo.pageCnt = pageCnt;
-	pageInfo.curPage = curPage;
+	pageInfo.pageNum = pageNum;
+	pageInfo.firstPageNum = firstPageNum;
+	pageInfo.lastPageNum = lastPageNum;
+	pageInfo.minPageNum = 1;
+	pageInfo.maxPageNum = maxPageNum;
 	
 	$.ajax({
 		url : "/template/manager/pageTemplate.jsp",

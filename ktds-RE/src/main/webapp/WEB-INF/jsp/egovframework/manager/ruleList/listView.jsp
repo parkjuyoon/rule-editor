@@ -38,20 +38,7 @@
 					<th>조회수</th>
 				</tr>
 			</thead>
-			<tbody>
-				<c:forEach var="rule" items="${ruleList }">
-					<tr>
-						<td>${rule.CUST_ACC_NO }</td>
-						<td>${rule.SEX_TYPE_NM }</td>
-						<td>${rule.CUST_CTG_TYPE_NM }</td>
-						<td>${rule.INDV_INFO_COLEC_USE_AGREE_YN }</td>
-						<td>${rule.SMPH_USE_YN }</td>
-						<td>${rule.CUST_CLAS_NM }</td>
-						<td>${rule.EC_CUST_YN }</td>
-						<td>${rule.CUST_AGE }</td>
-					</tr>
-				</c:forEach>
-			</tbody>
+			<tbody id="ruleList"></tbody>
 		</table>
 	</div>
 	<div id="paging"></div>
