@@ -46,7 +46,6 @@ function getRuleList(pageNum) {
 			html += "	<td>"+ ruleList[i].SMPH_USE_YN +"</td>";
 			html += "	<td>"+ ruleList[i].CUST_CLAS_NM +"</td>";
 			html += "	<td>"+ ruleList[i].EC_CUST_YN +"</td>";
-			html += "	<td>"+ ruleList[i].CUST_AGE +"</td>";
 			html += "</tr>";
 		}
 		

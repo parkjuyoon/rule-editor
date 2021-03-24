@@ -8,19 +8,21 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+
+import egovframework.ktds.drools.config.DroolsConfig;
 
 public class DroolsMapExample {
 	
-	private static HashMap<String, Object> ruleMap;
+	public static HashMap<String, Object> ruleMap;
 	
 	public DroolsMapExample(HashMap<String, Object> map) {
 		this.ruleMap = map;
 	}
 
-    public static List<String> execute( KieContainer kc ) throws Exception{
-        KieSession ksession = kc.newKieSession("MapExampleKS");
+    public static List<String> execute() throws Exception{
+    	
+        KieSession ksession = new DroolsConfig().getKieSession("rules/MapExample.drl");
 
     	ksession.insert(ruleMap);
     	ksession.fireAllRules();

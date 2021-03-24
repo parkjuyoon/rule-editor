@@ -1,15 +1,16 @@
 package egovframework.ktds.manager.login.controller;
 
-import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.json.Json;
 
-import org.kie.api.KieServices;
-import org.kie.api.runtime.KieContainer;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.example.sample.web.DroolsMapExample;
 import egovframework.ktds.manager.login.service.RuleEditorService;
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @RequestMapping("/ruleEditor")
 @Controller
@@ -83,23 +87,32 @@ public class RuleEditorController {
 	 * @throws Exception 
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/ruleApply.do", method = RequestMethod.POST)
-	public void ruleApply(@RequestParam("drl_data") String drl_data) throws Exception {
+	@RequestMapping(value = "/ruleSave.do", method = RequestMethod.POST)
+	public String ruleApply(@RequestBody List<HashMap<String, Object>> applyRuleArr) {
 		
-		HashMap<String, Object> user = null;
+		System.out.println(applyRuleArr);
 		
-		String filepath = "/ktds-RE/src/main/resources/rules/MapExample.drl";
-		String fileName = "";
+//		
+//		String filePath = "C:\\work\\appdata\\drl";
+//		String fileName = "MapExample.drl";
+//		DroolsConfig config = new DroolsConfig();
+//		
+//		String drlToString = config.getDrlToString(filePath, fileName);
+//		
+//		System.out.println(drlToString);
+//		
+//		HashMap<String, Object> user = ruleEditorService.test("AKBL6Y2HQZY");
+////		---------------------------
+//		
+//        KieSession kieSession = new DroolsConfig().getKieSession(filePath + File.separator + fileName);
+//        
+//        kieSession.insert(user);
+//        kieSession.fireAllRules();
+//        kieSession.dispose();
+//		
+//        System.out.println(user);
 		
-//		File file = new File(filepath + File.separator + fileName);
-		
-		File file = new File("0.txt");
-		
-		String path = file.getAbsolutePath();
-		
-		System.out.println(path);
-		
-		
+		return "true";
 	}
 	
 	/**
@@ -117,13 +130,7 @@ public class RuleEditorController {
 		
 		DroolsMapExample dse = new DroolsMapExample(user);
 		
-		// KieServices is the factory for all KIE services
-		KieServices ks = KieServices.Factory.get();
-		
-		// From the kie services, a container is created from the classpath
-		KieContainer kc = ks.getKieClasspathContainer();
-		
-		return dse.execute( kc );
+		return dse.execute();
 	}
 
 }

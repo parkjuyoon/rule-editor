@@ -262,7 +262,7 @@ $(document).ready(function() {
 			applyRuleObj.ruleAddCnt = ++ruleAddCnt; // 룰 추가한 순서 증가
 			
 			// rule drl 생성
-			var ruleGenStr = ruleGenerator(applyRuleObj);
+			var ruleGenStr = ruleGenerator(applyRuleObj); // (/js/manager/ruleEditor/drlGenerator.js)
 
 			if("-1" == ruleGenStr) {
 				alert("룰 속성 정의가 올바르지 않습니다.\n마지막 속성은 NONE으로 설정하세요.");
@@ -275,8 +275,11 @@ $(document).ready(function() {
 				return;
 			}
 			
-			ruleAttrArr.push(ruleGenStr); // (/js/manager/ruleEditor/drlGenerator.js)
+			ruleAttrArr.push(ruleGenStr); 
 			$("#ruleAttCnt").text(ruleAttrArr.length);
+			
+			// Rule 추가버튼 클릭하면 Rule Object 를 Array 담아서 DB 저장시 사용
+			applyRuleArr.push(applyRuleObj);
 			
 			initObj();
 			
@@ -302,13 +305,16 @@ $(document).ready(function() {
 		}
 		
 		// 룰 적용 버튼 이벤트
-		$("#ruleApplyBtn").click(function() {
-			var drl_data = $("#drlGenData").text();
+		$("#ruleSaveBtn").click(function() {
+			console.log(applyRuleArr)
 			
 			$.ajax({
-				url:"/ruleEditor/ruleApply.do",
-				type :"POST",
-				data:{"drl_data":drl_data},
+				method : "POST",
+				url : "/ruleEditor/ruleSave.do",
+				traditional: true,
+				data : JSON.stringify(applyRuleArr),
+				contentType:'application/json; charset=utf-8',
+				dataType : "json"
 				
 			}).done(function(res) {
 				console.log(res);
