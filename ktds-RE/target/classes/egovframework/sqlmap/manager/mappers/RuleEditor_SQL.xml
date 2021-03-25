@@ -50,4 +50,61 @@
 		WHERE
 			CUST_ACC_NO = #{value}
 	</select>
+	
+	<insert id="insertDrlInfo" parameterType="java.util.HashMap">
+		INSERT INTO ${schema}.DRL_INFO
+		(
+			SERVICE_ID,
+			ROOT_PATH,
+			PACKAGE_NM,
+			PACKAGE_COMMENT,
+			DRL_FILE_NM,
+			DRL_FILE_COMMENT,
+			REG_USER_ID
+		)
+		VALUES 
+		(
+			#{SERVICE_ID},
+			#{ROOT_PATH},
+			#{PACKAGE_NM},
+			#{PACKAGE_COMMNET},
+			#{DRL_FILE_NM},
+			#{DRL_FILE_COMMENT},
+			#{REG_USER_ID}
+		)
+		<selectKey keyProperty="DRL_INFO_SEQ" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<insert id="insertRuleInfo" parameterType="java.util.HashMap">
+		INSERT INTO ${schema}.RULE_INFO
+		(
+			DRL_INFO_SEQ,
+			RULE_NAME,
+			RULE_ADD_CNT,
+			NO_LOOP,
+			LOCK_ON_ACTIVE,
+			AGENDA_GROUP,
+			SALIENCE,
+			ENABLED,
+			DURATION,
+			CONTENTS
+		)
+		VALUES 
+		<foreach item="rule" collection="RULES_INFO" separator=",">
+		(
+			#{DRL_INFO_SEQ},
+			#{rule.RULE_NAME},
+			#{rule.RULE_ADD_CNT},
+			#{rule.NO_LOOP},
+			#{rule.LOCK_ON_ACTIVE},
+			#{rule.AGENDA_GROUP},
+			#{rule.SALIANCE},
+			#{rule.ENABLED},
+			#{rule.DURATION},
+			#{rule.CONTENTS}
+		)
+		</foreach>
+	</insert>
 </mapper>

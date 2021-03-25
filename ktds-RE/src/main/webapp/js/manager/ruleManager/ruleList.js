@@ -39,13 +39,12 @@ function getRuleList(pageNum) {
 		var html = "";
 		for(var i in ruleList) {
 			html += "<tr>";
-			html += "	<td>"+ ruleList[i].CUST_ACC_NO +"</td>";
-			html += "	<td>"+ ruleList[i].SEX_TYPE_NM +"</td>";
-			html += "	<td>"+ ruleList[i].CUST_CTG_TYPE_NM +"</td>";
-			html += "	<td>"+ ruleList[i].INDV_INFO_COLEC_USE_AGREE_YN +"</td>";
-			html += "	<td>"+ ruleList[i].SMPH_USE_YN +"</td>";
-			html += "	<td>"+ ruleList[i].CUST_CLAS_NM +"</td>";
-			html += "	<td>"+ ruleList[i].EC_CUST_YN +"</td>";
+			html += "	<td>"+ ruleList[i].SEQ +"</td>";
+			html += "	<td>"+ ruleList[i].SERVICE_ID +"</td>";
+			html += "	<td>"+ ruleList[i].PACKAGE_NM +"</td>";
+			html += "	<td>"+ ruleList[i].DRL_FILE_NM +"</td>";
+			html += "	<td>"+ ruleList[i].RULE_NAME +"</td>";
+			html += "	<td>"+ ruleList[i].REG_DTM +"</td>";
 			html += "</tr>";
 		}
 		

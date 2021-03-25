@@ -304,15 +304,20 @@ $(document).ready(function() {
 			whenMapAttr_html = [];
 		}
 		
-		// 룰 적용 버튼 이벤트
+		// 룰 저장 버튼 이벤트
 		$("#ruleSaveBtn").click(function() {
-			console.log(applyRuleArr)
+			applyRuleObj.ruleAttrArr = ruleAttrArr;
+			drl_html = drlGenerator(applyRuleObj);	// (/js/manager/ruleEditor/drlGenerator.js)
+			
+			var param = {};
+			param.drl_html = drl_html;
+			param.applyRuleArr = applyRuleArr;
 			
 			$.ajax({
 				method : "POST",
 				url : "/ruleEditor/ruleSave.do",
 				traditional: true,
-				data : JSON.stringify(applyRuleArr),
+				data : JSON.stringify(param),
 				contentType:'application/json; charset=utf-8',
 				dataType : "json"
 				

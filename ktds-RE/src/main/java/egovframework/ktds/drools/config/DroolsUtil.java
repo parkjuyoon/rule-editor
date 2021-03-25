@@ -1,7 +1,11 @@
 package egovframework.ktds.drools.config;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -22,14 +26,14 @@ import org.kie.internal.io.ResourceFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
-public class DroolsConfig {
+public class DroolsUtil {
 
 	/**
 	 * DRL 파일을 KieSession 에 담아 리턴
 	 * @param RULES_PATH
 	 * @return kieSession
 	 */
-	public KieSession getKieSession (String RULES_PATH) {
+	public static KieSession getKieSession (String RULES_PATH) {
 		KieServices kieServices = null;
 		KieFileSystem kieFileSystem = null;
 		KieBuilder kieBuilder = null;
@@ -78,7 +82,7 @@ public class DroolsConfig {
 	 * @param fileName
 	 * @return drlToString
 	 */
-	public String getDrlToString (String filePath, String fileName) {
+	public static String getDrlToString (String filePath, String fileName) {
 		String drlToString = "";
 		//파일 객체 생성
         Path path = Paths.get(filePath + File.separator + fileName);
@@ -97,5 +101,36 @@ public class DroolsConfig {
         }
         
         return drlToString;
+	}
+	
+	/**
+	 * DRL 파일 쓰기
+	 * @param root_path
+	 * @param package_nm
+	 * @param drl_file_nm
+	 * @param contents
+	 * @return
+	 */
+	public static boolean outputDrl(String root_path, String package_nm, String drl_file_nm, String drl_data) {
+		String drl_output_path = root_path + File.separator + package_nm + File.separator + drl_file_nm;
+		File folder = new File(root_path + File.separator + package_nm);
+		File drlFile = null;
+		
+		try {
+			if(!folder.exists()) {
+				folder.mkdir();
+			} 
+			
+			drlFile = new File(drl_output_path);
+			BufferedWriter bw = new BufferedWriter(new FileWriter(drlFile));
+			
+			bw.write(drl_data);
+			bw.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 }

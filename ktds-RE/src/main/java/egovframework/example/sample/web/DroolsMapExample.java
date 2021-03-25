@@ -10,7 +10,7 @@ import java.util.Map;
 
 import org.kie.api.runtime.KieSession;
 
-import egovframework.ktds.drools.config.DroolsConfig;
+import egovframework.ktds.drools.config.DroolsUtil;
 
 public class DroolsMapExample {
 	
@@ -22,7 +22,7 @@ public class DroolsMapExample {
 
     public static List<String> execute() throws Exception{
     	
-        KieSession ksession = new DroolsConfig().getKieSession("rules/MapExample.drl");
+        KieSession ksession = DroolsUtil.getKieSession("rules/MapExample.drl");
 
     	ksession.insert(ruleMap);
     	ksession.fireAllRules();

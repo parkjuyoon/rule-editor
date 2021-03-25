@@ -18,4 +18,8 @@ public interface RuleEditorMapper {
 
 	public HashMap<String, Object> test(String custAccNo);
 
+	public void insertDrlInfo(HashMap<String, Object> drl_info);
+
+	public void insertRuleInfo(HashMap<String, Object> param);
+
 }

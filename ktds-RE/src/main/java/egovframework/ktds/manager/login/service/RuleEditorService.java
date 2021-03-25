@@ -15,4 +15,8 @@ public interface RuleEditorService {
 
 	HashMap<String, Object> test(String custAccNo);
 
+	void insertRuleInfo(HashMap<String, Object> param);
+
+	void insertDrlInfo(HashMap<String, Object> drl_info);
+
 }

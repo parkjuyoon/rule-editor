@@ -29,12 +29,12 @@
 			<thead>
 				<tr>
 					<th>No.</th>
-					<th>PACKAGE 명</th>
-					<th>DRL 명</th>
-					<th>RULE 이름</th>
+					<th>SERVICE</th>
+					<th>PACKAGE</th>
+					<th>DRL</th>
+					<th>RULE NAME</th>
 					<th>SALIENCE</th>
 					<th>DRL 등록일</th>
-					<th>활성화 여부</th>
 				</tr>
 			</thead>
 			<tbody id="ruleList"></tbody>

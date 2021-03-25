@@ -42,4 +42,14 @@ public class RuleEditorServiceImpl extends EgovAbstractServiceImpl implements Ru
 		return dao.test(custAccNo);
 	}
 
+	@Override
+	public void insertRuleInfo(HashMap<String, Object> param) {
+		dao.insertRuleInfo(param);
+	}
+
+	@Override
+	public void insertDrlInfo(HashMap<String, Object> drl_info) {
+		dao.insertDrlInfo(drl_info);
+	}
+
 }
