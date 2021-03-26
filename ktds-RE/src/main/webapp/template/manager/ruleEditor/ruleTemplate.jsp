@@ -6,5 +6,5 @@ rule "${param.ruleName }"
     when
         $map : Map(${param.whenMap_html })
     then
-        $map.put("RuleName_${param.ruleName }", ${param.opt3 }.${param.ruleAddCnt });
+        $map.put("RESULT", "Y");
 end

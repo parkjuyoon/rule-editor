@@ -51,8 +51,42 @@
 			CUST_ACC_NO = #{value}
 	</select>
 	
+	<select id="getRuleNameCheck" parameterType="java.util.HashMap" resultType="int">
+		SELECT 
+			count(*)
+		FROM
+		    ${schema}.DRL_INFO DI
+		    LEFT JOIN ${schema}.RULE_INFO RI ON (DI.SEQ = RI.DRL_INFO_SEQ)
+		WHERE
+		    DI.SERVICE_ID = #{SERVICE_ID}
+		    AND DI.ROOT_PATH = #{ROOT_PATH}
+		    AND DI.PACKAGE_NM = #{PACKAGE_NM}
+		    AND DI.DRL_FILE_NM = #{DRL_FILE_NM}
+			AND RI.RULE_NAME = #{RULE_NAME}	
+	</select>
+	
+	<select id="gerLastRuleAddCnt" parameterType="java.util.HashMap" resultType="int">
+		SELECT 
+		<![CDATA[
+		   CASE
+				WHEN COUNT(*) < 1 THEN 0
+				ELSE RI.RULE_ADD_CNT
+			END	AS RULE_ADD_CNT
+		]]>
+		FROM
+		    ${drl_info.schema}.DRL_INFO DI
+		    LEFT JOIN ${drl_info.schema}.RULE_INFO RI ON (DI.SEQ = RI.DRL_INFO_SEQ)
+		WHERE
+		    DI.SERVICE_ID = #{drl_info.SERVICE_ID}
+		    AND DI.ROOT_PATH = #{drl_info.ROOT_PATH}
+		    AND DI.PACKAGE_NM = #{drl_info.PACKAGE_NM}
+		    AND DI.DRL_FILE_NM = #{drl_info.DRL_FILE_NM}
+			AND RI.SALIENCE = #{rule_info.SALIANCE}
+		ORDER BY SEQ DESC	
+	</select>
+	
 	<insert id="insertDrlInfo" parameterType="java.util.HashMap">
-		INSERT INTO ${schema}.DRL_INFO
+		INSERT INTO ${drl_info.schema}.DRL_INFO
 		(
 			SERVICE_ID,
 			ROOT_PATH,
@@ -64,21 +98,21 @@
 		)
 		VALUES 
 		(
-			#{SERVICE_ID},
-			#{ROOT_PATH},
-			#{PACKAGE_NM},
-			#{PACKAGE_COMMNET},
-			#{DRL_FILE_NM},
-			#{DRL_FILE_COMMENT},
-			#{REG_USER_ID}
+			#{drl_info.SERVICE_ID},
+			#{drl_info.ROOT_PATH},
+			#{drl_info.PACKAGE_NM},
+			#{drl_info.PACKAGE_COMMNET},
+			#{drl_info.DRL_FILE_NM},
+			#{drl_info.DRL_FILE_COMMENT},
+			#{drl_info.REG_USER_ID}
 		)
-		<selectKey keyProperty="DRL_INFO_SEQ" resultType="Integer">
+		<selectKey keyProperty="DRL_INFO_SEQ" keyColumn="SEQ" resultType="Integer" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>
 	
 	<insert id="insertRuleInfo" parameterType="java.util.HashMap">
-		INSERT INTO ${schema}.RULE_INFO
+		INSERT INTO ${drl_info.schema}.RULE_INFO
 		(
 			DRL_INFO_SEQ,
 			RULE_NAME,
@@ -92,19 +126,17 @@
 			CONTENTS
 		)
 		VALUES 
-		<foreach item="rule" collection="RULES_INFO" separator=",">
 		(
 			#{DRL_INFO_SEQ},
-			#{rule.RULE_NAME},
-			#{rule.RULE_ADD_CNT},
-			#{rule.NO_LOOP},
-			#{rule.LOCK_ON_ACTIVE},
-			#{rule.AGENDA_GROUP},
-			#{rule.SALIANCE},
-			#{rule.ENABLED},
-			#{rule.DURATION},
-			#{rule.CONTENTS}
+			#{rule_info.RULE_NAME},
+			#{RULE_ADD_CNT},
+			#{rule_info.NO_LOOP},
+			#{rule_info.LOCK_ON_ACTIVE},
+			#{rule_info.AGENDA_GROUP},
+			#{rule_info.SALIANCE},
+			#{rule_info.ENABLED},
+			#{rule_info.DURATION},
+			#{rule_info.CONTENTS}
 		)
-		</foreach>
 	</insert>
 </mapper>

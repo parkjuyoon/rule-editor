@@ -44,6 +44,8 @@ function getRuleList(pageNum) {
 			html += "	<td>"+ ruleList[i].PACKAGE_NM +"</td>";
 			html += "	<td>"+ ruleList[i].DRL_FILE_NM +"</td>";
 			html += "	<td>"+ ruleList[i].RULE_NAME +"</td>";
+			html += "	<td>"+ ruleList[i].SALIENCE +"</td>";
+			html += "	<td>"+ ruleList[i].RULE_ADD_CNT +"</td>";
 			html += "	<td>"+ ruleList[i].REG_DTM +"</td>";
 			html += "</tr>";
 		}

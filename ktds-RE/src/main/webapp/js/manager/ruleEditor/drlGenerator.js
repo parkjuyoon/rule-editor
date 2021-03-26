@@ -1,8 +1,7 @@
 /**
  * Rule Add 할 때 개별 Rule when문장 생성
  */
-var header = "";
-header += "package rule";
+var header = "package rule";
 header += "\n";
 header += "import java.util.Map";
 
@@ -75,25 +74,13 @@ function ruleGenerator(applyRuleObj) {
  * Rule Generate 할 때 최종 DRL 파일 내용 생성
  */
 function drlGenerator(applyRuleObj) {
-	var ruleAttrArr = applyRuleObj.ruleAttrArr;
-	var ruleAttr = "";
-	
-	for(var i in ruleAttrArr) {
-		ruleAttr += ruleAttrArr[i];
-	}
-	
-	var returnVal = "";
-	
-	var paramObj = {
-			header : header,
-			ruleAttr : ruleAttr
-	};
+	applyRuleObj.header = header;
 	
 	$.ajax({
 		url : "/template/manager/ruleEditor/drlTemplate.jsp",
 		dataType : "html",
 		type :"POST",
-		data : paramObj,
+		data : applyRuleObj,
 		async:false	// ajax 통신 완료 후 return 해주기 위해 비동기 false
 		
 	}).done(function(res) {

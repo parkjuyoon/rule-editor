@@ -52,4 +52,14 @@ public class RuleEditorServiceImpl extends EgovAbstractServiceImpl implements Ru
 		dao.insertDrlInfo(drl_info);
 	}
 
+	@Override
+	public int gerLastRuleAddCnt(HashMap<String, Object> param) {
+		return dao.gerLastRuleAddCnt(param);
+	}
+
+	@Override
+	public int getRuleNameCheck(HashMap<String, Object> param) {
+		return dao.getRuleNameCheck(param);
+	}
+
 }

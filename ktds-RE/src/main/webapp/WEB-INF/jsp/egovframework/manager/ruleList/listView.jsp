@@ -34,6 +34,7 @@
 					<th>DRL</th>
 					<th>RULE NAME</th>
 					<th>SALIENCE</th>
+					<th>RULE 실행 순서</th>
 					<th>DRL 등록일</th>
 				</tr>
 			</thead>

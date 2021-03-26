@@ -10,6 +10,7 @@
 		    DI.DRL_FILE_NM,
 		    RI.RULE_NAME,
 		    RI.SALIENCE,
+		    RI.RULE_ADD_CNT,
 		    RI.REG_DTM
 		FROM 
 			${schema}.DRL_INFO DI,

@@ -22,4 +22,8 @@ public interface RuleEditorMapper {
 
 	public void insertRuleInfo(HashMap<String, Object> param);
 
+	public int gerLastRuleAddCnt(HashMap<String, Object> param);
+
+	public int getRuleNameCheck(HashMap<String, Object> param);
+
 }

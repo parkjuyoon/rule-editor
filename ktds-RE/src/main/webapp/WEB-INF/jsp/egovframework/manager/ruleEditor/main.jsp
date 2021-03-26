@@ -277,7 +277,7 @@
 								<div class="col">
 									<div class="card">
 										<div class="card-body h350" id="ruleAttDiv">
-											<h5 class="card-title">Rule 속성 (<span id="ruleAttCnt">0</span> 건 추가)</h5>
+											<h5 class="card-title">Rule 속성</h5>
 											<h6 class="card-subtitle mb-2 text-muted">Rule Name : <input type="text" placeholder="Rule Name을 입력하세요." id="ruleName"/></h6>
 											<button type="button" class="btn btn-info addDefaultbtn" id="ruleAddBtn">Rule 추가</button>
 											<fieldset class="">

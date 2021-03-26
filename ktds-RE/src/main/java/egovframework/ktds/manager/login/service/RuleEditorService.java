@@ -19,4 +19,8 @@ public interface RuleEditorService {
 
 	void insertDrlInfo(HashMap<String, Object> drl_info);
 
+	int gerLastRuleAddCnt(HashMap<String, Object> param);
+
+	int getRuleNameCheck(HashMap<String, Object> param);
+
 }

@@ -76,6 +76,44 @@ public class RuleEditorController {
 	}
 	
 	/**
+	 * Rule name 중복 체크
+	 * @param param
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/ruleNameCheck.do", method = RequestMethod.POST)
+	public boolean ruleNameCheck(@RequestBody HashMap<String, Object> map) {
+		// 값 받아올 수 있게 변경 필요 -----------------------------------
+		String service_id = "SER_01";
+		String root_path = "C:\\work\\appdata";
+		String package_nm = "rule";
+		String package_comment = "룰패키지";
+		String drl_file_nm = "customerRule.drl";
+		String drl_file_comment = "고객룰DRL";
+		String reg_user_id = "user0001";
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("schema", schema);
+		param.put("SERVICE_ID", service_id);
+		param.put("ROOT_PATH", root_path);
+		param.put("PACKAGE_NM", package_nm);
+		param.put("PACKAGE_COMMNET", package_comment);
+		param.put("DRL_FILE_NM", drl_file_nm);
+		param.put("DRL_FILE_COMMENT", drl_file_comment);
+		param.put("REG_USER_ID", reg_user_id);
+		// 값 받아올 수 있게 변경 필요 -----------------------------------
+		
+		String rule_name = (String) map.get("ruleName");
+		param.put("RULE_NAME", rule_name);
+		int ruleNameCnt = ruleEditorService.getRuleNameCheck(param);
+		
+		if(ruleNameCnt > 0) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
 	 * 룰 저장 (파일 및 DB) 
 	 * @param custAccNo
 	 * @param column_name
@@ -84,12 +122,10 @@ public class RuleEditorController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/ruleSave.do", method = RequestMethod.POST)
-	public String ruleApply(@RequestBody HashMap<String, Object> map) {
-		
+	public String ruleApply(@RequestBody HashMap<String, Object> applyRuleObj) {
+		try {
 		// 저장될 DRL 파일 컨텐츠
-		String drl_contents = (String) map.get("drl_html");
-		// DB에 저장하기 위한 세부 정보
-		List<HashMap<String, Object>> applyRuleArr = (List<HashMap<String, Object>>) map.get("applyRuleArr");
+		String drl_contents = (String) applyRuleObj.get("drl_html");
 			
 		// 값 받아올 수 있게 변경 필요 -----------------------------------
 		String service_id = "SER_01";
@@ -113,47 +149,47 @@ public class RuleEditorController {
 		drl_info.put("REG_USER_ID", reg_user_id);
 
 		// RULE_INFO 테이블에 저장될 데이터
-		List<HashMap<String, Object>> rules_info = new ArrayList<HashMap<String,Object>>();
-		for(HashMap m : applyRuleArr) {
-			HashMap<String, Object> rule_info = new HashMap<>();
-			
-			String rule_name = (String) m.get("ruleName");
-			int rule_add_cnt = (Integer) m.get("ruleAddCnt");
-			String no_loop = (String) m.get("opt1");
-			String lock_on_active = (String) m.get("opt2");
-			String agenda_group = "";
-			int salience = Integer.parseInt((String) m.get("opt3"));
-			String enabled = "";
-			String duration = "";
-			String contents = (String) m.get("whenMap_html");
-			
-			rule_info.put("RULE_NAME", rule_name);
-			rule_info.put("RULE_ADD_CNT", rule_add_cnt);
-			rule_info.put("NO_LOOP", no_loop);
-			rule_info.put("LOCK_ON_ACTIVE", lock_on_active);
-			rule_info.put("AGENDA_GROUP", null);
-			rule_info.put("SALIANCE", salience);
-			rule_info.put("ENABLED", null);
-			rule_info.put("DURATION", null);
-			rule_info.put("CONTENTS", contents);
-			
-			rules_info.add(rule_info);
-		}
+		HashMap<String, Object> rule_info = new HashMap<>();
 		
-		// DB 저장
+		String rule_name = (String) applyRuleObj.get("ruleName");
+		String no_loop = (String) applyRuleObj.get("opt1");
+		String lock_on_active = (String) applyRuleObj.get("opt2");
+		String agenda_group = "";
+		int salience = Integer.parseInt((String) applyRuleObj.get("opt3"));
+		String enabled = "";
+		String duration = "";
+		String contents = (String) applyRuleObj.get("whenMap_html");
+		
+		rule_info.put("schema", schema);
+		rule_info.put("RULE_NAME", rule_name);
+		rule_info.put("NO_LOOP", no_loop);
+		rule_info.put("LOCK_ON_ACTIVE", lock_on_active);
+		rule_info.put("AGENDA_GROUP", null);
+		rule_info.put("SALIANCE", salience);
+		rule_info.put("ENABLED", null);
+		rule_info.put("DURATION", null);
+		rule_info.put("CONTENTS", contents);
+		
 		HashMap<String, Object> param = new HashMap<>();
-		param.put("schema", schema);
-		param.put("RULES_INFO", rules_info);
+		param.put("drl_info", drl_info);
+		param.put("rule_info", rule_info);
 		
+		// RULE 추가 순서 저장 (같은 DRL 안의 RULE 중에 SALIANCE 가 같은 마지막 추가된 RULE의  RULE_ADD_CNT + 1 을 저장)
+		int rule_add_cnt = ruleEditorService.gerLastRuleAddCnt(param);
+		param.put("RULE_ADD_CNT", rule_add_cnt + 1);
+
 		// DRL_INFO 저장
-		ruleEditorService.insertDrlInfo(drl_info);
-		param.put("DRL_INFO_SEQ", (Integer) drl_info.get("DRL_INFO_SEQ"));
+		ruleEditorService.insertDrlInfo(param);
+		param.put("DRL_INFO_SEQ", (Integer) param.get("DRL_INFO_SEQ"));
 		// RULE_INFO 저장
 		ruleEditorService.insertRuleInfo(param);
 		
 		// DRL 파일 output
 		DroolsUtil.outputDrl(root_path, package_nm, drl_file_nm, drl_contents);
 		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 //		
 //		String filePath = "C:\\work\\appdata\\drl";

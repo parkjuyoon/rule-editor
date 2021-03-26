@@ -7,8 +7,6 @@ $(document).ready(function() {
 		var applyRuleArr = new Array();	// Rule 속성에 정의된 목록
 		var applyRuleObj = {};	// Rule 속성에 추가된 한개의 rule
 		var whenMapAttr_html = new Array();
-		var ruleAttrArr = new Array();
-		var ruleAddCnt = 0; // 룰 추가한 순서를 저장
 		var drl_html = ""; // 최종 생성된 drl rule
 			
 		$('.leftmenutrigger').on('click', function(e) {
@@ -249,46 +247,63 @@ $(document).ready(function() {
 				return;
 			}
 			
-			applyRuleObj.ruleName = $("#ruleName").val();
+			var param = {};
+			param.ruleName = ruleName;
 			
-			// Rule 옵션 추가
-			var opt1 = $("input[name='opt1']:checked").val();
-			var opt2 = $("input[name='opt2']:checked").val();
-			var opt3 = $("input[name='opt3']").val() == "" ? 1 : $("input[name='opt3']").val();
-			
-			applyRuleObj.opt1 = opt1;
-			applyRuleObj.opt2 = opt2;
-			applyRuleObj.opt3 = opt3;
-			applyRuleObj.ruleAddCnt = ++ruleAddCnt; // 룰 추가한 순서 증가
-			
-			// rule drl 생성
-			var ruleGenStr = ruleGenerator(applyRuleObj); // (/js/manager/ruleEditor/drlGenerator.js)
-
-			if("-1" == ruleGenStr) {
-				alert("룰 속성 정의가 올바르지 않습니다.\n마지막 속성은 NONE으로 설정하세요.");
-				--ruleAddCnt; // 실패시 룰 추가한 순서 감소
-				return;
+			// Rule name 중복 체크
+			$.ajax({
+				url : "/ruleEditor/ruleNameCheck.do",
+				dataType : "json",
+				type :"POST",
+				traditional: true,
+				data : JSON.stringify(param),
+				contentType:'application/json; charset=utf-8',
+				async:false	// ajax 통신 완료 후 return 해주기 위해 비동기 false
 				
-			} else if("" == ruleGenStr) {
-				alert("룰 속성을 먼저 추가 하세요.");
-				--ruleAddCnt; // 실패시 룰 추가한 순서 감소
-				return;
-			}
-			
-			ruleAttrArr.push(ruleGenStr); 
-			$("#ruleAttCnt").text(ruleAttrArr.length);
-			
-			// Rule 추가버튼 클릭하면 Rule Object 를 Array 담아서 DB 저장시 사용
-			applyRuleArr.push(applyRuleObj);
-			
-			initObj();
-			
+			}).done(function(res) {
+				if(res == false) {
+					alert("동일한 Rule Name이 존재합니다.");
+					return;
+				}
+				
+				applyRuleObj.ruleName = $("#ruleName").val();
+				
+				// Rule 옵션 추가
+				var opt1 = $("input[name='opt1']:checked").val();
+				var opt2 = $("input[name='opt2']:checked").val();
+				var opt3 = $("input[name='opt3']").val() == "" ? 1 : $("input[name='opt3']").val();
+				
+				applyRuleObj.opt1 = opt1;
+				applyRuleObj.opt2 = opt2;
+				applyRuleObj.opt3 = opt3;
+				
+				// rule drl 생성
+				var ruleGenStr = ruleGenerator(applyRuleObj); // (/js/manager/ruleEditor/drlGenerator.js)
+
+				if("-1" == ruleGenStr) {
+					alert("룰 속성 정의가 올바르지 않습니다.\n마지막 속성은 NONE으로 설정하세요.");
+					return;
+					
+				} else if("" == ruleGenStr) {
+					alert("룰 속성을 먼저 추가 하세요.");
+					return;
+				}
+				
+				applyRuleObj.ruleGenStr = ruleGenStr;
+				
+				alert("RULE : " + ruleName + " 이 추가 되었습니다.");
+				initObj();
+				
+			}).fail(function(jqXHR, textStatus, errorThrown) {
+				console.log("에러")
+				console.log(jqXHR)
+				console.log(textStatus)
+				console.log(errorThrown)
+			});
 		});
 		
 		// generate 버튼 클릭 이벤트
 		$("#drlGenBtn").click(function() {
-			applyRuleObj.ruleAttrArr = ruleAttrArr;
-			
 			drl_html = drlGenerator(applyRuleObj);	// (/js/manager/ruleEditor/drlGenerator.js)
 			
 			$("#drlGenData").html(drl_html);
@@ -300,24 +315,19 @@ $(document).ready(function() {
 			$("#detAttrData").html("");
 			$("#detAttrTable").text("속성을 선택하세요.");
 			$("#detAttrColumn").text("");
-			applyRuleObj =  {};
 			whenMapAttr_html = [];
 		}
 		
 		// 룰 저장 버튼 이벤트
 		$("#ruleSaveBtn").click(function() {
-			applyRuleObj.ruleAttrArr = ruleAttrArr;
 			drl_html = drlGenerator(applyRuleObj);	// (/js/manager/ruleEditor/drlGenerator.js)
-			
-			var param = {};
-			param.drl_html = drl_html;
-			param.applyRuleArr = applyRuleArr;
+			applyRuleObj.drl_html = drl_html;
 			
 			$.ajax({
 				method : "POST",
 				url : "/ruleEditor/ruleSave.do",
 				traditional: true,
-				data : JSON.stringify(param),
+				data : JSON.stringify(applyRuleObj),
 				contentType:'application/json; charset=utf-8',
 				dataType : "json"
 				
